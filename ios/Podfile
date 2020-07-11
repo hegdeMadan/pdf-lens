@@ -79,6 +79,12 @@ target 'remotefriend' do
 
   pod 'react-native-static-server', :path => '../node_modules/react-native-static-server'
 
+  pod 'RNFileSelector', :path => '../node_modules/react-native-file-selector'
+
+  pod 'RNPdfScanner', :path => '../node_modules/react-native-document-scanner'
+
+  pod 'react-native-document-scanner', :path => '../node_modules/react-native-document-scanner'
+
   target 'remotefriendTests' do
     inherit! :complete
     # Pods for testing
