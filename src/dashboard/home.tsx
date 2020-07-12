@@ -7,6 +7,7 @@ export default function App() {
   const pdfScannerElement = useRef(null)
   const [data, setData] = useState({})
   const [allowed, setAllowed] = useState(false)
+  const [detection, setDetection] = useState({})
 
   useEffect(() => {
     async function requestCamera() {
@@ -47,11 +48,19 @@ export default function App() {
         onPictureTaken={setData}
         overlayColor="rgba(255,130,0, 0.7)"
         enableTorch={false}
+        brightness={0.3}
+        saturation={1}
+        contrast={1.1}
         quality={0.5}
+        onRectangleDetect={({ stableCounter, lastDetectionType }) => {
+          setDetection({ stableCounter, lastDetectionType })
+          console.log('detection', stableCounter, lastDetectionType)
+        }}
         detectionCountBeforeCapture={5}
         detectionRefreshRateInMS={50}
+        onPermissionsDenied={() => console.log("Permissions Denied")}
       />
-      <TouchableOpacity onPress={handleOnPress} style={styles.button}>
+      <TouchableOpacity onPress={() => handleOnPress()} style={styles.button}>
         <Text style={styles.buttonText}>Take picture</Text>
       </TouchableOpacity>
     </React.Fragment>
