@@ -1,94 +1,76 @@
-import React, { useRef, useState, useEffect } from "react"
-import { View, StyleSheet, Text, TouchableOpacity, Image, Platform } from "react-native"
-import Permissions from 'react-native-permissions';
-import PDFScanner from "@woonivers/react-native-document-scanner"
+import React, { useEffect } from 'react'
+import { View, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import AntIcons from 'react-native-vector-icons/AntDesign'
+import { sizes, colors } from '../theme'
+import { moderateScale } from 'react-native-size-matters'
+import { Header, Label } from '../components';
+import { screens } from '../navigator/constants'
+import { noFile } from '../assets'
 
-export default function App() {
-  const pdfScannerElement = useRef(null)
-  const [data, setData] = useState({})
-  const [allowed, setAllowed] = useState(false)
-  const [detection, setDetection] = useState({})
-
-  useEffect(() => {
-    async function requestCamera() {
-      const result = await Permissions.request(Platform.OS === "android" ? "android.permission.CAMERA" : "ios.permission.CAMERA")
-      if (result === "granted") setAllowed(true)
-    }
-    requestCamera()
-  }, [])
-
-  function handleOnPressRetry() {
-    setData({})
-  }
-  function handleOnPress() {
-    pdfScannerElement.current.capture()
-  }
-  if (!allowed) {
-    console.log("You must accept camera permission")
-    return (<View style={styles.permissions}>
-      <Text>You must accept camera permission</Text>
-    </View>)
-  }
-  if (data.croppedImage) {
-    console.log("data", data)
-    return (
-      <React.Fragment>
-        <Image source={{ uri: data.croppedImage }} style={styles.preview} />
-        <TouchableOpacity onPress={handleOnPressRetry} style={styles.button}>
-          <Text style={styles.buttonText}>Retry</Text>
-        </TouchableOpacity>
-      </React.Fragment>
-    )
-  }
+export const Home = ({ navigation }) => {
   return (
-    <React.Fragment>
-      <PDFScanner
-        ref={pdfScannerElement}
-        style={styles.scanner}
-        onPictureTaken={setData}
-        overlayColor="rgba(255,130,0, 0.7)"
-        enableTorch={false}
-        brightness={0.3}
-        saturation={1}
-        contrast={1.1}
-        quality={0.5}
-        onRectangleDetect={({ stableCounter, lastDetectionType }) => {
-          setDetection({ stableCounter, lastDetectionType })
-          console.log('detection', stableCounter, lastDetectionType)
-        }}
-        detectionCountBeforeCapture={5}
-        detectionRefreshRateInMS={50}
-        onPermissionsDenied={() => console.log("Permissions Denied")}
-      />
-      <TouchableOpacity onPress={() => handleOnPress()} style={styles.button}>
-        <Text style={styles.buttonText}>Take picture</Text>
-      </TouchableOpacity>
-    </React.Fragment>
+    <View style={styles.container}>
+      <View style={{ position: 'absolute', top: 0, left: 0 }}>
+        <Header
+          leftIconName='menu'
+          textAlign='flex-start'
+          headerColor={colors.grey.superDark}
+          iconColor={colors.white}
+          iconSize={sizes.miscIcons}
+          onClick={() => navigation.openDrawer()}
+          styleProps={{
+            backgroundColor: colors.primry
+          }}
+        />
+      </View>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <Image source={noFile} style={{ width: 192, height: 192, alignSelf: 'center' }} />
+        <View style={{ maxWidth: moderateScale(256), alignSelf: 'center', paddingTop: moderateScale(5) }}>
+          <Label
+            text='Looks like you do not have any scans'
+            style={{ textAlign: 'center' }}
+            weight='bold'
+          />
+          <View height={moderateScale(4)} />
+          <Label
+            text='Scan a document from your camera or import one from gallery'
+            style={{ textAlign: 'center' }}
+            variant='medium'
+          />
+        </View>
+      </View>
+      <View style={styles.scanButton}>
+        <TouchableOpacity onPress={() => navigation.navigate(screens.scanner)}>
+          <View style={styles.scanIcon}>
+            <AntIcons
+              name='scan1'
+              size={moderateScale(sizes.scanIcon)}
+              color={colors.white}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  scanner: {
+  container: {
     flex: 1,
-    aspectRatio: undefined
+    backgroundColor: colors.white
   },
-  button: {
-    alignSelf: "center",
-    position: "absolute",
-    bottom: 32,
+  scanButton: {
+    position: 'absolute',
+    bottom: moderateScale(32),
+    right: moderateScale(48),
+    backgroundColor: colors.primry,
+    width: moderateScale(60),
+    height: moderateScale(60),
+    borderRadius: 50,
+    justifyContent: 'center',
   },
-  buttonText: {
-    backgroundColor: "rgba(245, 252, 255, 0.7)",
-    fontSize: 32,
-  },
-  preview: {
-    flex: 1,
-    width: "100%",
-    resizeMode: "cover",
-  },
-  permissions: {
-    flex:1,
-    justifyContent: "center",
-    alignItems: "center"
+  scanIcon: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   }
 })

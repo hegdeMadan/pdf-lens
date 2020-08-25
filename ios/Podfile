@@ -85,6 +85,14 @@ target 'remotefriend' do
 
   pod 'react-native-document-scanner', :path => '../node_modules/react-native-document-scanner'
 
+  pod 'react-native-perspective-image-cropper', :path => '../node_modules/react-native-perspective-image-cropper'
+
+  pod 'RNImageToPdf', :path => '../node_modules/react-native-image-to-pdf'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'RNReactNativePdfLib', :path => '../node_modules/react-native-pdf-lib'
+
   target 'remotefriendTests' do
     inherit! :complete
     # Pods for testing

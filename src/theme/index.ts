@@ -16,7 +16,7 @@ export const colors = {
     '#e3da66',
     '#e6b5c3',
   ],
-  primry: '#1976d2',
+  primry: '#3698f7',
   grey: {
     light: '#f7f7f7',
     lightPlus: '#fafafa',
@@ -34,7 +34,12 @@ export const colors = {
   card: '#fff',
   blackOverlay: 'rgba(0, 0, 0, 0.9)',
   tabIconFocused: '#1976d2',
-  tabIcon: '#555'
+  tabIcon: '#555',
+  red: '#ff0000',
+  avatar: '#2e8ff0',
+  hover: {
+    primary: '#def7ff'
+  }
 }
 
 export const borders = {
@@ -108,17 +113,18 @@ export const sizes = {
     topNav: 40,
     header: 50,
     bottomBar: 40,
-    avatar: 48
+    avatar: 60
   },
 
   width: {
     inputText: '100%', // prefer local style instead
     breaker: 15,
     header: 50,
-    avatar: 48
+    avatar: 60
   },
 
-  tabIcon: 22,
+  tabIcon: 20,
+  scanIcon: 24,
   miscIcons: 28,
   label: 14,
   smallLabel: 11,

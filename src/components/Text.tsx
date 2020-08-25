@@ -22,6 +22,7 @@ export const Label = props => (
         ...props.style,
       }}>
       {props.text}
+      {props.children}
     </Text>
   </>
 )

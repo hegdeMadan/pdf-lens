@@ -47,7 +47,7 @@ const Header = ({
       <View
         style={{
           flexDirection: 'row',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
         }}
       >
         {leftIconName || LeftIcon ? (
